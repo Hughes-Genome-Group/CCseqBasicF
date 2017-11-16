@@ -233,7 +233,7 @@ print STDOUT "\n" ;
 
 print STDOUT "public_folder $public_folder \n" ;
 print STDOUT "public_url $public_url \n";
-print STDOUT "bigwig_folder $bigwig_folder\n" ;
+print STDOUT "ucscsizes $ucscsizes\n" ;
 print STDOUT "email $email\n" ;
 
 print STDOUT "input_filename_path $input_filename_path\n";
