@@ -135,6 +135,9 @@ echo "--globin : combine captures globin capture sites :"
 echo "  To combine ONLY alpha globin  :  --globin 1 (name your globin capture sites Hba-1 and Hba-2)"
 echo "  To combine BOTH alpha and beta : --globin 2 (name your alpha Hba-1 Hba-2, beta Hbb-b1 Hbb-b2)"
 echo
+echo "DUPLICATE FILTERING IN CAPTUREC ANALYSER SCRIPT"
+echo "--CCversion CF5 : Which duplicate filtering is to be done : CF3 (for short sequencing reads), CF4 (long reads), CF5 (any reads). "
+echo
 echo "WINDOWING IN CAPTUREC ANALYSER SCRIPT"
 echo "Default windowing is 200b window and 20b increment"
 echo "-w 200   or   --window 200  : custom window size (instead of default 200b)."
