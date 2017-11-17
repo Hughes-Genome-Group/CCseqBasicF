@@ -367,21 +367,23 @@ done
 
 
 
-if [ ${CCversion} == "CS5" ] ; then
+if [ ${CCversion} == "CF5" ] ; then
     echo
-    echo "Duplicate filtering style CS5 selected ! "
+    echo "Duplicate filtering style CF5 selected ! "
     echo
-elif [ ${CCversion} == "CS3" ] ; then
+elif [ ${CCversion} == "CF3" ] ; then
     echo
-    echo "Duplicate filtering style CS3 selected ! "
+    echo "Duplicate filtering style CF3 selected ! "
     echo
-elif [ ${CCversion} == "CS4" ] ; then
+elif [ ${CCversion} == "CF4" ] ; then
     echo
-    echo "Duplicate filtering style CS4 selected ! "
+    echo "Duplicate filtering style CF4 selected ! "
     echo
 else
    # Crashing here !
-    printThis="Duplicate filtering style given wrong ! Give either --CCversion CS3 or --CCversion CS4 ( or default --CCversion CS5 )"
+    printThis="Duplicate filtering style given wrong ! Give either --CCversion CF3 or --CCversion CF4 ( or default --CCversion CF5 )"
+    printToLogFile
+    printThis="You gave --CCversion ${CCversion}"
     printToLogFile
     printThis="EXITING ! "
     printToLogFile

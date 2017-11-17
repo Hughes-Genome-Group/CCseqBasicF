@@ -182,6 +182,11 @@ my %duplicates;
 my $analysedReads=0;
 my $notlastFragments=0;
 
+print STDOUT "\n" ;
+print STDOUT "Capture C analyser - version $version !\n" ;
+print STDOUT "Developer email $email\n" ;
+print STDOUT "\n" ;
+
 # The GetOptions from the command line
 &GetOptions
 (
@@ -223,11 +228,6 @@ if ( $ucscsizes eq "UNDEFINED"){
 
 # Printing out the parameters in the beginning of run - Jelena added this 220515
 
-print STDOUT "\n" ;
-print STDOUT "Capture C analyser - version $version !\n" ;
-print STDOUT "Developer email $email\n" ;
-print STDOUT "\n" ;
-
 print STDOUT "Starting run with parameters :\n" ;
 print STDOUT "\n" ;
 
@@ -239,6 +239,7 @@ print STDOUT "email $email\n" ;
 print STDOUT "input_filename_path $input_filename_path\n";
 print STDOUT "flashed $flashed (1 or 0 - if this is sam file from out.extended (1) or out.not_combined (0) )\n";
 print STDOUT "duplfilter $duplfilter (1 or 0)\n";
+print STDOUT "duplicate filtering style : $version \n" ;
 print STDOUT "oligo_filename $oligo_filename\n";
 print STDOUT "sample $sample\n" ;
 print STDOUT "restriction_enzyme_coords_file $restriction_enzyme_coords_file \n";
@@ -605,7 +606,7 @@ while (my $line = <INFH>)  #loops through all the lines of the sam file
 	    # CC3 style duplicate filter
 	    #################################################
 	    
-	    if ($version eq "CS3" ){
+	    if ($version eq "CF3" ){
 	    
 	    push @{$data{$readname}{"coord array"}}, $data{$readname}{$pe}{$readno}{"chr"}.":".$data{$readname}{$pe}{$readno}{"readstart"}."-".$data{$readname}{$pe}{$readno}{"readend"}."-".$data{$readname}{$pe}{$readno}{"strand"};
 	    
@@ -615,7 +616,7 @@ while (my $line = <INFH>)  #loops through all the lines of the sam file
 	    # CC4 style duplicate filter
 	    #################################################
 	    
-	    elsif ($version eq "CS4" ){
+	    elsif ($version eq "CF4" ){
 	    
 	    # Normal stuff - all flash-combined reads
 	    if ($flashed==1){
@@ -662,7 +663,7 @@ while (my $line = <INFH>)  #loops through all the lines of the sam file
 	    # CC5 style duplicate filter
 	    #################################################
 	    
-	    elsif ($version eq "CS5" ){
+	    elsif ($version eq "CF5" ){
 	    
 	    # Normal stuff - all flash-combined reads
 	    if ($flashed==1){
