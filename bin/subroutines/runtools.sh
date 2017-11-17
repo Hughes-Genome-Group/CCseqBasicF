@@ -85,7 +85,7 @@ printToLogFile
 echo "-f Input filename "
 echo "-r Restriction coordinates filename "
 echo "-o Oligonucleotide position filename "
-echo "--CCversion CS3 or CS4 (which version of the duplicate filtering we will perform)"
+echo "--CCversion CF3 or CF4 or CF5 (which version of the duplicate filtering we will perform)"
 echo "--pf Your public folder"
 echo "--pu Your public url"
 echo "-s Sample name (and the name of the folder it goes into)"
@@ -100,6 +100,9 @@ echo "--globin Combines the two captures from the gene duplicates (HbA1 and HbA2
 echo "--flashed	1 or 0 (are the reads in input sam combined via flash or not ? - run out.extended with 1 and out.not_combined with 0)"
 echo "--duplfilter 1 or 0 (will the reads be duplicate filtered)\n"
 echo "--parp Filter artificial chromosome chrPARP out before visualisation"
+echo "--stringent enforces additional stringency - forces all reported subfragments to be unique"
+echo "--stranded To replicate the strand-specific (i.e. wrong) duplicate filter of CB3a/CC3 and CB4a/CC4"
+
 
 runDir=$( pwd )
 
