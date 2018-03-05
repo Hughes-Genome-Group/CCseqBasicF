@@ -670,8 +670,8 @@ printToLogFile
 ${RunScriptsPath}/QC_and_Trimming.sh --fastqc
 
     # Changing names of fastqc folders to be "ORIGINAL"
-    mv -f READ1_fastqc READ1_fastqc_ORIGINAL
-    mv -f READ2_fastqc READ2_fastqc_ORIGINAL
+    # mv -f READ1_fastqc READ1_fastqc_ORIGINAL
+    # mv -f READ2_fastqc READ2_fastqc_ORIGINAL
     mv -f READ1_fastqc.zip READ1_fastqc_ORIGINAL.zip
     mv -f READ2_fastqc.zip READ2_fastqc_ORIGINAL.zip
    
@@ -709,8 +709,8 @@ printToLogFile
 ${RunScriptsPath}/QC_and_Trimming.sh --fastqc
 
     # Changing names of fastqc folders to be "TRIMMED"
-    mv -f READ1_fastqc READ1_fastqc_TRIMMED
-    mv -f READ2_fastqc READ2_fastqc_TRIMMED
+    # mv -f READ1_fastqc READ1_fastqc_TRIMMED
+    # mv -f READ2_fastqc READ2_fastqc_TRIMMED
     mv -f READ1_fastqc.zip READ1_fastqc_TRIMMED.zip
     mv -f READ2_fastqc.zip READ2_fastqc_TRIMMED.zip
     
