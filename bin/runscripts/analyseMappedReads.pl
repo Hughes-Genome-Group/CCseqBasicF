@@ -757,6 +757,12 @@ while (my $line = <INFH>)  #loops through all the lines of the sam file
 		  
                 }
 		
+		# If found, break loop here :
+                if (($captureFlag == 1) || ($exclusionFlag == 1))
+                  {
+                  last;
+                  }
+		
             }
 
 
