@@ -96,6 +96,7 @@ echo
 echo "RESTRICTION ENZYME SETTINGS"
 echo "--dpn  (default) : dpnII is the RE of the experiment"
 echo "--nla  : nlaIII is the RE of the experiment"
+echo "--hind : hindIII is the RE of the experiment"
 echo
 echo "BOWTIE SETTINGS"
 echo "--chunkmb "${BOWTIEMEMORY}" - memory allocated to Bowtie, defaults to 256mb "

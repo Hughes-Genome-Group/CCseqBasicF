@@ -297,7 +297,7 @@ echo
 
 #------------------------------------------
 
-OPTS=`getopt -o h,m:,M:,o:,s:,w:,i:,v: --long help,dump,snp,dpn,nla,CCversion:,BLATforREUSEfolderPath:,globin:,outfile:,errfile:,limit:,pf:,genome:,R1:,R2:,saveGenomeDigest,dontSaveGenomeDigest,trim,noTrim,chunkmb:,window:,increment:,ada3read1:,ada3read2:,extend:,onlyCCanalyser,onlyHub,noPloidyFilter:,qmin:,flashBases:,flashMismatch:,stringent,trim3:,trim5:,seedmms:,seedlen:,maqerr:,stepSize:,tileSize:,minScore:,maxIntron:,oneOff: -- "$@"`
+OPTS=`getopt -o h,m:,M:,o:,s:,w:,i:,v: --long help,dump,snp,dpn,nla,hind,CCversion:,BLATforREUSEfolderPath:,globin:,outfile:,errfile:,limit:,pf:,genome:,R1:,R2:,saveGenomeDigest,dontSaveGenomeDigest,trim,noTrim,chunkmb:,window:,increment:,ada3read1:,ada3read2:,extend:,onlyCCanalyser,onlyHub,noPloidyFilter:,qmin:,flashBases:,flashMismatch:,stringent,trim3:,trim5:,seedmms:,seedlen:,maqerr:,stepSize:,tileSize:,minScore:,maxIntron:,oneOff: -- "$@"`
 if [ $? != 0 ]
 then
     exit 1
@@ -319,6 +319,7 @@ while true ; do
         --CCversion) CCversion="$2"; shift 2;;       
         --dpn) REenzyme="dpnII" ; shift;;
         --nla) REenzyme="nlaIII" ; shift;;
+        --hind) REenzyme="hindIII" ; shift;;
         --onlyCCanalyser) ONLY_CC_ANALYSER=1 ; shift;;
         --onlyHub) ONLY_HUB=1 ; shift;;
         --R1) Read1=$2 ; shift 2;;

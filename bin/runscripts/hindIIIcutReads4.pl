@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License      #
 # along with CCseqBasic5.  If not, see <http://www.gnu.org/licenses/>.   #
 ##########################################################################
-
 use strict;
 
 my $min_length = 19;
@@ -62,9 +61,11 @@ if ($f_counter==4)
 
 # codes for marking
 # :0 no AAGCTT cut
-# :1 AAGCTT in 5'
-# :2 AAGCTT in 3'
-# :3 AAGCTT in 3' and 5'
+# :1 AAGCTT in LEFT
+# :2 AAGCTT in RIGHT
+# :3 AAGCTT in RIGHT and LEFT
+
+#  : The cut sequence for HindIII is A^AGCTT
         
 if ($hash{"seq"} =~ /AAGCTT/)
         {
@@ -74,25 +75,45 @@ if ($hash{"seq"} =~ /AAGCTT/)
              for (my $i=0; $i<$#gatc_splits+1;$i++)
              {
              $fragment_counter++;
-             if ($i==0) #first fragment : The cut sequence for HindIII is A^AGCTT
-                {                
-                  
+             
+             # ------------------------------------------
+             # First fragment of the red-in line
+             if ($i==0) #first fragment
+                {
+                
+                # ----------------------------------------------
+                # Setting the sseq and sqscore for the found fragment - to be updated in late if clauses
+                if ($i==$#gatc_splits) 
+                {
+                #last fragment if there is just one fragment    
+                $hash{"split$i"}{"sseq"}= "$gatc_splits[$i]";
+                }
+                else 
+                {
+                # other cases (normal cases)
                 $hash{"split$i"}{"sseq"}= "$gatc_splits[$i]AAGCTT";
-                $hash{"split$i"}{"sqscore"}= substr ($hash{qscore},0,length $hash{"split$i"}{"sseq"});
+                }
+                $hash{"split$i"}{"sqscore"}= substr ($hash{"qscore"},0,length $hash{"split$i"}{"sseq"});
+                # ----------------------------------------------
                 
                  # If starts with AAGCTT or AGCTT or not
                 if ($hash{"split$i"}{"sseq"} =~ /^AAGCTT/)
                 {
+                # for testing :    
+                # $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3a";
+                # this seems to never happen - see testing results in workingDiary66 .
                 $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3";
                 if (length $hash{"split$i"}{"sseq"}>$min_length){$gatc_3_counter++;}
                 
                 }
                 elsif ($hash{"split$i"}{"sseq"} =~ /^AGCTT/)
                 {
-                $hash{"split$i"}{"sseq"}= "A$gatc_splits[$i]";
-                $hash{"split$i"}{"sqscore"}= substr ($hash{qscore},0,1) . $hash{"split$i"}{"sqscore"};
+                $hash{"split$i"}{"sseq"}= "A" . $hash{"split$i"}{"sseq"};
+                $hash{"split$i"}{"sqscore"}= substr ($hash{"split$i"}{"sqscore"},0,1) . $hash{"split$i"}{"sqscore"};
                 
-                $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3";
+                # for testing :
+                # $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3b";
+                $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3";                
                 if (length $hash{"split$i"}{"sseq"}>$min_length){$gatc_3_counter++;}
                 
                 }
@@ -104,26 +125,37 @@ if ($hash{"seq"} =~ /AAGCTT/)
                 
                 
                 }
+                
+             # ------------------------------------------
+             # Middle fragments of the red-in line (not-first, not-last)
              if ($i!=0 and $i != $#gatc_splits) #middle fragment
                 {
                 $hash{"split$i"}{"sseq"}= "AAGCTT$gatc_splits[$i]AAGCTT";
                 my $offset=0;
                 for (my$j=0; $j<$i; $j++){$offset = $offset -6 + length $hash{"split$j"}{"sseq"};} # calculates the offset by looping through the lengths of the left hand side fragments and summing them
-                $hash{"split$i"}{"sqscore"}= substr ($hash{qscore},$offset,length $hash{"split$i"}{"sseq"});
+                $hash{"split$i"}{"sqscore"}= substr ($hash{"qscore"},$offset,length $hash{"split$i"}{"sseq"});
+                # for testing :
+                # $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3c";               
                 $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3";
                 if (length $hash{"split$i"}{"sseq"}>$min_length){$gatc_3_counter++;}
 
                 }
+                
+             # ------------------------------------------
+             # Last fragment of the red-in line (if there is more than one fragment : if only one fragment, it is handled in "first fragment" above)
              if ($i==$#gatc_splits and $i!=0) #last fragment if there is more than one fragment
                 {
                 $hash{"split$i"}{"sseq"}= "AAGCTT$gatc_splits[$i]";
-                $hash{"split$i"}{"sqscore"}= substr ($hash{qscore},-length $hash{"split$i"}{"sseq"},length $hash{"split$i"}{"sseq"});
+                $hash{"split$i"}{"sqscore"}= substr ($hash{"qscore"},-length $hash{"split$i"}{"sseq"},length $hash{"split$i"}{"sseq"});
                 
                 # If ends with AAGCTT or not
                 # (we cannot really know if we had cut site here, though, as if there is A in the end, that may be co-incidence..
                 #  so, the reads with A in the end get marked like they would not be cut sites - as we cannot be sure)
                 if ($hash{"split$i"}{"sseq"} =~ /AAGCTT$/)
                 {
+                # for testing :
+                # $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3d";
+                # this seems to never happen - see testing results in workingDiary66 .
                 $hash{"split$i"}{"sname"}= $hash{"new name"}.":PE".$hash{"PE"}.":".$i.":3";
                 if (length $hash{"split$i"}{"sseq"}>$min_length){$gatc_3_counter++;}
                 }
@@ -133,7 +165,11 @@ if ($hash{"seq"} =~ /AAGCTT/)
                 if (length $hash{"split$i"}{"sseq"}>$min_length){$gatc_1_counter++;}
                 }
                 }         
-         
+             # ------------------------------------------
+             # end of the first-middle-last fragment read : now  'sseq'  'sqscore'  and  'sname'  have been set for all cases.
+             # ------------------------------------------
+             
+             # If the lenght of the current fragment is long enough to enable unique mapping, proceed to printing ..
              if (length $hash{"split$i"}{"sseq"}>$min_length)
                 {
                 print FHOUT $hash{"split$i"}{"sname"}."\n".$hash{"split$i"}{"sseq"}."\n+\n".$hash{"split$i"}{"sqscore"}."\n";
@@ -177,18 +213,18 @@ if ( $filetype eq "NONFLASHED" )
 {
 print "Here READ means either R1 or R2 part of any read - both are called read, and the combined entity does not exist, as flashing was not succesfull for these.\n";
 print "In detail, \n$fragment_counter fragments was found, and of these \n$printed_counter fragments were printed - as they were longer than the set threshold $min_length\n";
-print "Of the printed fragments :\n$gatc_3_counter fragments had 5' and 3' AAGCTT,\n$gatc_1_counter fragments had only 5' AAGCTT,\n$gatc_2_counter fragments had only 3' AAGCTT site,\n$gatc_0_counter fragments had no AAGCTT.\n";
+print "Of the printed fragments (in FASTQ coordinates):\n$gatc_3_counter fragments had LEFT and RIGHT AAGCTT,\n$gatc_1_counter fragments had only LEFT AAGCTT,\n$gatc_2_counter fragments had only RIGHT AAGCTT site,\n$gatc_0_counter fragments had no AAGCTT.\n";
 }
 else {
 print "In detail, \n$fragment_counter fragments was found, and of these \n$printed_counter fragments were printed - as they were longer than the set threshold $min_length , and the read contained at least one AAGCTT\n";
-print "Of the printed fragments :\n$gatc_3_counter fragments had 5' and 3' AAGCTT,\n$gatc_1_counter fragments had only 5' AAGCTT,\n$gatc_2_counter fragments had only 3' AAGCTT site.\n";
+print "Of the printed fragments (in FASTQ coordinates):\n$gatc_3_counter fragments had LEFT and RIGHT AAGCTT,\n$gatc_1_counter fragments had only LEFT AAGCTT,\n$gatc_2_counter fragments had only RIGHT AAGCTT site.\n";
 print "$gatc_0_counter reads were longer htan the set treshold $min_length, but had no AAGCTT and thus were discarded .\n";
 }
 
 
 # codes for marking (above)
 # :0 no AAGCTT cut
-# :1 AAGCTT in 5'
-# :2 AAGCTT in 3'
-# :3 AAGCTT in 3' and 5'
+# :1 AAGCTT in LEFT
+# :2 AAGCTT in RIGHT
+# :3 AAGCTT in RIGHT and LEFT
 
