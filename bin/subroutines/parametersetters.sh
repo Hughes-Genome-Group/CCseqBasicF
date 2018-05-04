@@ -51,7 +51,7 @@ then
     printToLogFile
   exit 1
 else
-    otherBowtieParameters="${otherBowtieParameters} ${bowtieMismatchBehavior} ${LOWERCASE_V}"
+    otherBowtieParameters="${otherBowtieParameters} ${bowtieMismatchBehavior} -v ${LOWERCASE_V}"
 fi
 
 #----------------------------------------------
