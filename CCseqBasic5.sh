@@ -92,6 +92,8 @@ WINDOW=200
 INCREMENT=20
 CAPITAL_M=0
 LOWERCASE_M=0
+LOWERCASE_V=-1
+
 BOWTIEMEMORY="256"
 Sample="sample"
 Read1=""
@@ -314,7 +316,7 @@ while true ; do
         -w) WINDOW=$2 ; shift 2;;
         -i) INCREMENT=$2 ; shift 2;;
         -s) Sample=$2 ; shift 2;;
-        -v) LOWERCASE_V="$2"; shift 2;;
+        -v) LOWERCASE_V=$2; shift 2;;
         --help) usage ; shift;;
         --CCversion) CCversion="$2"; shift 2;;       
         --dpn) REenzyme="dpnII" ; shift;;
