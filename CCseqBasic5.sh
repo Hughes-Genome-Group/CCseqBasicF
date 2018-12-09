@@ -85,7 +85,7 @@ trap finish EXIT
 QSUBOUTFILE="qsub.out"
 QSUBERRFILE="qsub.err"
 
-OligoFile=""
+CapturesiteFile=""
 TRIM=1
 GENOME=""
 WINDOW=200
@@ -169,7 +169,7 @@ echo
 
 echo "Loading subroutines in .."
 
-CaptureTopPath="$( echo $0 | sed 's/\/'${CCseqBasicVersion}'.sh$//' )"
+CaptureTopPath="$( which $0 | sed 's/\/'${CCseqBasicVersion}'.sh$//' )"
 
 CapturePipePath="${CaptureTopPath}/bin/subroutines"
 
@@ -299,7 +299,7 @@ echo
 
 #------------------------------------------
 
-OPTS=`getopt -o h,m:,M:,o:,s:,w:,i:,v: --long help,dump,snp,dpn,nla,hind,CCversion:,BLATforREUSEfolderPath:,globin:,outfile:,errfile:,limit:,pf:,genome:,R1:,R2:,saveGenomeDigest,dontSaveGenomeDigest,trim,noTrim,chunkmb:,window:,increment:,ada3read1:,ada3read2:,extend:,onlyCCanalyser,onlyHub,noPloidyFilter:,qmin:,flashBases:,flashMismatch:,stringent,trim3:,trim5:,seedmms:,seedlen:,maqerr:,stepSize:,tileSize:,minScore:,maxIntron:,oneOff: -- "$@"`
+OPTS=`getopt -o h,m:,M:,c:,o:,s:,w:,i:,v: --long help,dump,snp,dpn,nla,hind,CCversion:,BLATforREUSEfolderPath:,globin:,outfile:,errfile:,limit:,pf:,genome:,R1:,R2:,saveGenomeDigest,dontSaveGenomeDigest,trim,noTrim,chunkmb:,window:,increment:,ada3read1:,ada3read2:,extend:,onlyCCanalyser,onlyHub,noPloidyFilter:,qmin:,flashBases:,flashMismatch:,stringent,trim3:,trim5:,seedmms:,seedlen:,maqerr:,stepSize:,tileSize:,minScore:,maxIntron:,oneOff: -- "$@"`
 if [ $? != 0 ]
 then
     exit 1
@@ -312,7 +312,8 @@ while true ; do
         -h) usage ; shift;;
         -m) LOWERCASE_M=$2 ; shift 2;;
         -M) CAPITAL_M=$2 ; shift 2;;
-        -o) OligoFile=$2 ; shift 2;;
+        -o) CapturesiteFile=$2 ; shift 2;;
+        -c) CapturesiteFile=$2 ; shift 2;;
         -w) WINDOW=$2 ; shift 2;;
         -i) INCREMENT=$2 ; shift 2;;
         -s) Sample=$2 ; shift 2;;
@@ -484,7 +485,7 @@ echo "Read1 ${Read1}" >> parameters_capc.log
 echo "Read2 ${Read2}" >> parameters_capc.log
 echo "GENOME ${GENOME}" >> parameters_capc.log
 echo "GenomeIndex ${GenomeIndex}" >> parameters_capc.log
-echo "OligoFile ${OligoFile}" >> parameters_capc.log
+echo "CapturesiteFile ${CapturesiteFile}" >> parameters_capc.log
 echo "REenzyme ${REenzyme}" >> parameters_capc.log
 echo "ONLY_CC_ANALYSER ${ONLY_CC_ANALYSER}" >> parameters_capc.log
 
@@ -543,7 +544,7 @@ echo "Bowtie genome index path : ${BowtieGenome}"
 echo "Chromosome sizes for UCSC bigBed generation will be red from : ${ucscBuild}"
 
 
-testedFile="${OligoFile}"
+testedFile="${CapturesiteFile}"
 doInputFileTesting
 
 # Making output folder.. (and crashing run if found it existing from a previous crashed run)
@@ -617,14 +618,14 @@ doTempFileTesting
 testedFile="F1_beforeCCanalyser_${Sample}_${CCversion}/READ2.fastq"
 doTempFileTesting
 
-# Save oligo file full path (to not to lose the file when we cd into the folder, if we used relative paths ! )
-TEMPdoWeStartWithSlash=$(($( echo ${OligoFile} | awk '{print substr($1,1,1)}' | grep -c '/' )))
+# Save capture-site (REfragment) file full path (to not to lose the file when we cd into the folder, if we used relative paths ! )
+TEMPdoWeStartWithSlash=$(($( echo ${CapturesiteFile} | awk '{print substr($1,1,1)}' | grep -c '/' )))
 if [ "${TEMPdoWeStartWithSlash}" -eq 0 ]
 then
- OligoFile=$(pwd)"/"${OligoFile}
+ CapturesiteFile=$(pwd)"/"${CapturesiteFile}
 fi
 
-testedFile="${OligoFile}"
+testedFile="${CapturesiteFile}"
 doInputFileTesting
 
 fi
